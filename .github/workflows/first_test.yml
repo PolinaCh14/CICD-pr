@@ -1,0 +1,41 @@
+name: My_first_work
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  
+jobs:
+  first_jobs:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+    - name: Show Python version
+      run: python --version
+      
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Show directory
+      run: pwd
+
+    - name: List files
+      run: ls -al
+      
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Create and seed database
+      run: |
+        python db.py --add_default_data
+        python db.py --print_all_data
+
+    - name: Run tests
+      run: python -m unittest discover tests
+      
