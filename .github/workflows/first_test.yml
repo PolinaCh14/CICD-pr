@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types: [opened, synchronize]
   workflow_dispatch:
   
 jobs:
@@ -18,7 +20,9 @@ jobs:
       run: python --version
       
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
       
     - name: Show directory
       run: pwd
